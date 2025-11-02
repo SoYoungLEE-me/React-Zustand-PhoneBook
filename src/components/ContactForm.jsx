@@ -7,6 +7,8 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedIcon, setSelectedIcon] = useState(presetIcons[0]);
 
+  const [errorMessage, setErrorMessage] = useState(""); //전화번호 유효성 검사 메세지
+
   const { addContact, deleteContact, updateContact } = usePhoneBookStore();
 
   useEffect(() => {
@@ -22,6 +24,13 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
       alert("이름과 연락처를 입력해주세요!");
       return;
     }
+
+    if (!isValidPhone(phoneNumber)) {
+      setErrorMessage("전화번호 형식이 올바르지 않습니다");
+      return;
+    }
+
+    setErrorMessage("");
 
     if (editingContact) {
       updateContact(editingContact.id, {
@@ -48,6 +57,12 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
       alert("삭제가 완료되었습니다");
       onClose();
     }
+  };
+
+  // 전화번호 유효성 검사
+  const isValidPhone = (phone) => {
+    const regex = /^(0(?:2|[3-6][1-5]|70|80|10))-(\d{3,4})-(\d{4})$/;
+    return regex.test(phone);
   };
 
   return (
@@ -96,6 +111,8 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
             />
           </div>
 
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+
           {/*연락처 입력*/}
           <div className="form-group">
             <label>연락처</label>
@@ -104,6 +121,9 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
               placeholder="전화번호 입력"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
+              className={
+                errorMessage && !isValidPhone(phoneNumber) ? "input-error" : ""
+              }
             />
           </div>
 

@@ -309,3 +309,18 @@ body {
 .save-btn:hover {
   background: #ff4080;
 }
+
+.error-message {
+  color: #ff4d6d;
+  background: #ffe4e9;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.input-error {
+  border: 2px solid #ff4d6d !important;
+  background: #fff5f7;
+}
