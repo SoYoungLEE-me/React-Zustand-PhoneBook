@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { X, Trash2 } from "lucide-react";
 import usePhoneBookStore from "../stores/usePhonebookStore";
 
@@ -10,6 +10,7 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
   const [errorMessage, setErrorMessage] = useState(""); //전화번호 유효성 검사 메세지
 
   const { addContact, deleteContact, updateContact } = usePhoneBookStore();
+  const phoneBook = usePhoneBookStore((state) => state.phoneBook);
 
   useEffect(() => {
     if (editingContact) {
@@ -22,6 +23,32 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
   const handleAddContact = () => {
     if (!name.trim() || !phoneNumber.trim()) {
       alert("이름과 연락처를 입력해주세요!");
+      return;
+    }
+
+    //중복검사
+    const duplicatePhone = phoneBook.some(
+      (c) =>
+        c.phoneNumber === phoneNumber &&
+        (!editingContact || c.id !== editingContact.id)
+    );
+    const duplicateName = phoneBook.some(
+      (c) =>
+        c.name === name.trim() &&
+        (!editingContact || c.id !== editingContact.id)
+    );
+
+    if (duplicatePhone && duplicateName) {
+      setErrorMessage("이미 등록된 이름과 전화번호입니다");
+      return;
+    }
+
+    if (duplicatePhone) {
+      setErrorMessage("이미 등록된 전화번호입니다");
+      return;
+    }
+    if (duplicateName) {
+      setErrorMessage("이미 등록된 이름입니다");
       return;
     }
 
@@ -65,6 +92,25 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
     return regex.test(phone);
   };
 
+  //전화번호 입력 시 자동 하이픈 처리
+  const handlePhoneChange = (e) => {
+    let value = e.target.value.replace(/[^0-9]/g, ""); // 숫자만 허용
+
+    if (value.startsWith("02")) {
+      if (value.length > 2 && value.length <= 5)
+        value = value.replace(/(\d{2})(\d+)/, "$1-$2");
+      else if (value.length > 5)
+        value = value.replace(/(\d{2})(\d{3,4})(\d+)/, "$1-$2-$3");
+    } else {
+      if (value.length > 3 && value.length <= 7)
+        value = value.replace(/(\d{3})(\d+)/, "$1-$2");
+      else if (value.length > 7)
+        value = value.replace(/(\d{3})(\d{3,4})(\d+)/, "$1-$2-$3");
+    }
+
+    setPhoneNumber(value);
+  };
+
   return (
     <div className="modal-overlay">
       <div className="contact-form">
@@ -76,6 +122,8 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
         </div>
 
         <div className="form-body">
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+
           {/* 프로필 미리보기 */}
           <div className="avatar-preview">
             <img
@@ -108,10 +156,19 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
               placeholder="이름 입력"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className={
+                errorMessage &&
+                (name.trim() === "" ||
+                  phoneBook.some(
+                    (c) =>
+                      c.name === name.trim() &&
+                      (!editingContact || c.id !== editingContact.id)
+                  ))
+                  ? "input-error"
+                  : ""
+              }
             />
           </div>
-
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           {/*연락처 입력*/}
           <div className="form-group">
@@ -120,9 +177,17 @@ const ContactForm = ({ presetIcons = [], onClose, editingContact = null }) => {
               type="tel"
               placeholder="전화번호 입력"
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={handlePhoneChange}
               className={
-                errorMessage && !isValidPhone(phoneNumber) ? "input-error" : ""
+                errorMessage &&
+                (!isValidPhone(phoneNumber) ||
+                  phoneBook.some(
+                    (c) =>
+                      c.phoneNumber === phoneNumber &&
+                      (!editingContact || c.id !== editingContact.id)
+                  ))
+                  ? "input-error"
+                  : ""
               }
             />
           </div>
