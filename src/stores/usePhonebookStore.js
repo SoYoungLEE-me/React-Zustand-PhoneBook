@@ -1,32 +1,41 @@
 // usePhoneBookStore.js
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-const usePhoneBookStore = create((set) => ({
-  phoneBook: [],
+const usePhoneBookStore = create(
+  persist(
+    (set) => ({
+      phoneBook: [],
 
-  //검색 키워드
-  searchTerm: "",
-  setSearchTerm: (term) => set({ searchTerm: term }),
+      //검색 키워드
+      searchTerm: "",
+      setSearchTerm: (term) => set({ searchTerm: term }),
 
-  addContact: (name, phoneNumber, icon) =>
-    set((state) => ({
-      phoneBook: [
-        ...state.phoneBook,
-        { id: Date.now(), name, phoneNumber, icon },
-      ],
-    })),
+      addContact: (name, phoneNumber, icon) =>
+        set((state) => ({
+          phoneBook: [
+            ...state.phoneBook,
+            { id: Date.now(), name, phoneNumber, icon },
+          ],
+        })),
 
-  updateContact: (id, updatedData) =>
-    set((state) => ({
-      phoneBook: state.phoneBook.map((contact) =>
-        contact.id === id ? { ...contact, ...updatedData } : contact
-      ),
-    })),
+      updateContact: (id, updatedData) =>
+        set((state) => ({
+          phoneBook: state.phoneBook.map((contact) =>
+            contact.id === id ? { ...contact, ...updatedData } : contact
+          ),
+        })),
 
-  deleteContact: (id) =>
-    set((state) => ({
-      phoneBook: state.phoneBook.filter((contact) => contact.id !== id), //선택한 아이디 외에만 반환
-    })),
-}));
+      deleteContact: (id) =>
+        set((state) => ({
+          phoneBook: state.phoneBook.filter((contact) => contact.id !== id), //선택한 아이디 외에만 반환
+        })),
+    }),
+    {
+      name: "phonebook-storage",
+      getStorage: () => localStorage,
+    }
+  )
+);
 
 export default usePhoneBookStore;

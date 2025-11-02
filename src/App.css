@@ -21,7 +21,7 @@ body {
   border-radius: 24px;
   width: 100%;
   max-width: 420px;
-  min-height: 80vh;
+  height: 700px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
@@ -33,17 +33,21 @@ body {
   text-align: center;
   padding: 1.5rem;
   border-bottom: 1px solid #ffbcd4;
+  flex-shrink: 0;
 }
 .app-header h1 {
   font-size: 1.6rem;
   font-weight: bold;
-  color: #333;
+  color: #fff;
   margin: 0;
+  text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000,
+    -1px -1px 0 #000;
 }
 
 /* 검색창 */
 .search-box {
   padding: 1rem;
+  flex-shrink: 0;
 }
 .search-box input {
   width: 90%;
@@ -61,8 +65,9 @@ body {
 /* 추가 버튼 */
 .add-btn {
   position: absolute;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  bottom: 20px;
+  right: 20px;
+  display: block;
   background: #ff66a1;
   color: white;
   font-size: 1.8rem;
@@ -82,6 +87,7 @@ body {
 /*ContactList.jsx*/
 /* 전체 레이아웃 */
 .contact-list {
+  flex: 1;
   padding: 1rem;
   max-height: 70vh;
   overflow-y: auto;

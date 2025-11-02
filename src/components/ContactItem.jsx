@@ -3,7 +3,7 @@ import { Edit2 } from "lucide-react";
 
 const ContactItem = ({ contact, onEdit }) => {
   return (
-    <div className="contact-item">
+    <div className="contact-item" onClick={() => onEdit(contact)}>
       <img src={contact.icon} alt={contact.name} className="contact-avatar" />
       <div className="contact-info">
         <h3>{contact.name}</h3>

@@ -35,7 +35,7 @@ function App() {
       <div className="contact-app">
         {/* 헤더 */}
         <div className="app-header">
-          <h1>PHONE BOOK</h1>
+          <h1>My Address Book</h1>
         </div>
 
         {/* 검색창 */}
