@@ -29,12 +29,17 @@ body {
 
 /* 헤더 */
 .app-header {
-  background: #ffbbd7;
+  background-color: #ffbbd7;
+  background-image: radial-gradient(#fff 1.5px, transparent 1.5px),
+    radial-gradient(#fff 1.5px, transparent 1.5px);
+  background-position: 0 0, 10px 10px; /* 두 번째 패턴을 대각선으로 절반만큼 밀기 */
+  background-size: 20px 20px;
   text-align: center;
   padding: 1.5rem;
   border-bottom: 1px solid #ffbcd4;
   flex-shrink: 0;
 }
+
 .app-header h1 {
   font-size: 1.6rem;
   font-weight: bold;
@@ -79,7 +84,8 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.add-btn:hover {
+.add-btn:hover,
+.add-btn:active {
   transform: scale(1.1);
   background: #ff4080;
 }
@@ -154,7 +160,8 @@ body {
   color: #ccc;
   transition: color 0.2s ease;
 }
-.contact-item:hover .edit-icon {
+.contact-item:hover .edit-icon,
+.contact-item:active .edit-icon {
   color: #ff66a1;
 }
 
