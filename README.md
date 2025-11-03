@@ -1,16 +1,13 @@
-# React + Vite
+# React Study
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 리액트 스터디 결과물입니다.
 
-Currently, two official plugins are available:
+- 목표: zustand 라이브러리를 이용한 전역 상태 관리
+- 구현한 기능 :
+  - 프로필 선택, 이름, 전화번호 추가
+  - 전화번호에 대한 양식 유효성 검사
+  - 이름과 전화번호 중복 검사
+  - 수정과 삭제, 검색 기능
+  - zustand 라이브러리의 persist를 이용한 로컬스토리지 상태 저장 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 결과물 : https://react-zustand-phone-book.vercel.app/
